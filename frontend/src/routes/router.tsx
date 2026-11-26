@@ -8,6 +8,7 @@ import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { PlacesPage } from '@/pages/PlacesPage'
 import { RegisterPage } from '@/pages/RegisterPage'
+import { GuestOnlyRoute } from './GuestOnlyRoute'
 import { PATHS } from './paths'
 import { ProtectedRoute } from './ProtectedRoute'
 
@@ -18,8 +19,13 @@ export const router = createBrowserRouter([
       { path: PATHS.home, element: <HomePage /> },
       { path: PATHS.lines, element: <LinesPage /> },
       { path: PATHS.places, element: <PlacesPage /> },
-      { path: PATHS.login, element: <LoginPage /> },
-      { path: PATHS.register, element: <RegisterPage /> },
+      {
+        element: <GuestOnlyRoute />,
+        children: [
+          { path: PATHS.login, element: <LoginPage /> },
+          { path: PATHS.register, element: <RegisterPage /> },
+        ],
+      },
       {
         element: <ProtectedRoute requiredRole={ADMIN_ROLE} />,
         children: [{ path: PATHS.admin, element: <AdminPage /> }],
