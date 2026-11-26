@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { emptyToUndefined } from './emptyValues.js'
 
 export const NOTICE_TYPES = ['desvio', 'corte', 'refuerzo', 'paro', 'otro'] as const
 export const MIN_PRIORITY = 1
@@ -19,9 +20,16 @@ const noticeFields = z.object({
   /** Nombres de línea tal como los publica la API municipal, por ejemplo "101 NEGRO". */
   affectedLines: z
     .array(z.string().trim().min(1, 'La línea no puede estar vacía'))
-    .min(1, 'Indicá al menos una línea afectada'),
-  startsAt: z.coerce.date({ error: 'La fecha de inicio es obligatoria' }),
-  endsAt: z.coerce.date({ error: 'La fecha de fin es inválida' }).optional(),
+    .min(1, 'Indicá al menos una línea afectada')
+    .refine((lines) => new Set(lines).size === lines.length, 'No repitas líneas afectadas'),
+  startsAt: z.preprocess(
+    emptyToUndefined,
+    z.coerce.date({ error: 'La fecha de inicio es obligatoria' }),
+  ),
+  endsAt: z.preprocess(
+    emptyToUndefined,
+    z.coerce.date({ error: 'La fecha de fin es inválida' }).optional(),
+  ),
   priority: z.coerce
     .number()
     .int('La prioridad debe ser un número entero')
