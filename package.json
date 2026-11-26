@@ -1,0 +1,13 @@
+{
+  "name": "coleradar",
+  "private": true,
+  "workspaces": [
+    "shared"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "postinstall": "npm run build -w @coleradar/shared"
+  }
+}
