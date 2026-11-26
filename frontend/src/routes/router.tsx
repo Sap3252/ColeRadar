@@ -1,4 +1,4 @@
-﻿import { ADMIN_ROLE } from '@coleradar/shared'
+import { ADMIN_ROLE } from '@coleradar/shared'
 import { createBrowserRouter } from 'react-router'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { AdminPage } from '@/pages/admin/AdminPage'
