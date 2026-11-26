@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { emptyToUndefined } from './emptyValues.js'
 
 /** Rectángulo que contiene a Rosario; fuera de él una coordenada se considera inválida. */
 export const ROSARIO_BOUNDS = {
@@ -10,15 +11,21 @@ export const ROSARIO_BOUNDS = {
 
 const OUTSIDE_ROSARIO_MESSAGE = 'La ubicación debe estar dentro de Rosario'
 
-export const latitudeSchema = z.coerce
-  .number({ error: 'La latitud debe ser un número' })
-  .min(ROSARIO_BOUNDS.minLat, OUTSIDE_ROSARIO_MESSAGE)
-  .max(ROSARIO_BOUNDS.maxLat, OUTSIDE_ROSARIO_MESSAGE)
+export const latitudeSchema = z.preprocess(
+  emptyToUndefined,
+  z.coerce
+    .number({ error: 'La latitud es obligatoria y debe ser un número' })
+    .min(ROSARIO_BOUNDS.minLat, OUTSIDE_ROSARIO_MESSAGE)
+    .max(ROSARIO_BOUNDS.maxLat, OUTSIDE_ROSARIO_MESSAGE),
+)
 
-export const longitudeSchema = z.coerce
-  .number({ error: 'La longitud debe ser un número' })
-  .min(ROSARIO_BOUNDS.minLng, OUTSIDE_ROSARIO_MESSAGE)
-  .max(ROSARIO_BOUNDS.maxLng, OUTSIDE_ROSARIO_MESSAGE)
+export const longitudeSchema = z.preprocess(
+  emptyToUndefined,
+  z.coerce
+    .number({ error: 'La longitud es obligatoria y debe ser un número' })
+    .min(ROSARIO_BOUNDS.minLng, OUTSIDE_ROSARIO_MESSAGE)
+    .max(ROSARIO_BOUNDS.maxLng, OUTSIDE_ROSARIO_MESSAGE),
+)
 
 export const coordinatesSchema = z.object({
   lat: latitudeSchema,
