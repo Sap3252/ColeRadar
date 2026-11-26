@@ -1,8 +1,10 @@
+import { PageHeader } from '@/components/layout/PageHeader'
+
 export function HomePage() {
   return (
-    <section>
-      <h1>ColeRadar</h1>
-      <p>Líneas, recorridos, paradas y arribos de los colectivos de Rosario.</p>
-    </section>
+    <PageHeader
+      title="ColeRadar"
+      description="Líneas, recorridos, paradas y arribos de los colectivos de Rosario."
+    />
   )
 }

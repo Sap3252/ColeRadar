@@ -1,8 +1,10 @@
+import { PageHeader } from '@/components/layout/PageHeader'
+
 export function AdminPage() {
   return (
-    <section>
-      <h1>Panel de administración</h1>
-      <p>Próximamente: gestión de avisos y lugares.</p>
-    </section>
+    <PageHeader
+      title="Panel de administración"
+      description="Próximamente: gestión de avisos y lugares."
+    />
   )
 }
