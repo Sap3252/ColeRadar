@@ -1,19 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useLocation, useNavigate } from 'react-router'
 import { FormErrorAlert } from '@/components/feedback/FormErrorAlert'
 import { SubmitButton } from '@/components/forms/SubmitButton'
 import { TextField } from '@/components/forms/TextField'
 import { FieldGroup } from '@/components/ui/field'
-import { getPostLoginPath } from '@/routes/redirect'
 import { authClient } from '@/services/authClient'
 import { getAuthErrorMessage } from './authErrors'
 import { loginSchema, type LoginValues } from './authSchemas'
 
 export function LoginForm() {
-  const navigate = useNavigate()
-  const location = useLocation()
   const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
@@ -24,14 +20,11 @@ export function LoginForm() {
     defaultValues: { email: '', password: '' },
   })
 
+  // Si sale bien no se navega acá: GuestOnlyRoute redirige cuando llega la sesión nueva.
   const onSubmit = async (values: LoginValues) => {
     setServerError(null)
     const { error } = await authClient.signIn.email(values)
-    if (error) {
-      setServerError(getAuthErrorMessage(error))
-      return
-    }
-    navigate(getPostLoginPath(location.state), { replace: true })
+    if (error) setServerError(getAuthErrorMessage(error))
   }
 
   return (
