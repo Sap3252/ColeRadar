@@ -1,7 +1,7 @@
 import type { Role } from '@coleradar/shared'
 import { Navigate, Outlet, useLocation } from 'react-router'
 import { LoadingIndicator } from '@/components/feedback/LoadingIndicator'
-import { authClient } from '@/services/authClient'
+import { useAuthSession } from '@/hooks/useAuthSession'
 import { PATHS } from './paths'
 
 interface ProtectedRouteProps {
@@ -10,10 +10,10 @@ interface ProtectedRouteProps {
 
 /** Ruta de layout: sin sesión manda al login y, si falta el rol, vuelve al inicio. */
 export function ProtectedRoute({ requiredRole }: ProtectedRouteProps) {
-  const { data: session, isPending } = authClient.useSession()
+  const { session, isLoading } = useAuthSession()
   const location = useLocation()
 
-  if (isPending) return <LoadingIndicator message="Verificando sesión…" />
+  if (isLoading) return <LoadingIndicator message="Verificando sesión…" />
 
   // Se guarda la ruta pedida para volver a ella después de iniciar sesión.
   if (!session) return <Navigate to={PATHS.login} replace state={{ from: location }} />

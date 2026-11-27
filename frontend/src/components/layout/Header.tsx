@@ -1,6 +1,6 @@
 import { BusFront } from 'lucide-react'
 import { Link, NavLink } from 'react-router'
-import { Button } from '@/components/ui/button'
+import { UserMenu } from '@/components/auth/UserMenu'
 import { cn } from '@/lib/utils'
 import { PATHS } from '@/routes/paths'
 
@@ -30,9 +30,7 @@ export function Header() {
               {label}
             </NavLink>
           ))}
-          <Button asChild size="sm" className="ml-1">
-            <Link to={PATHS.login}>Ingresar</Link>
-          </Button>
+          <UserMenu />
         </nav>
       </div>
     </header>
