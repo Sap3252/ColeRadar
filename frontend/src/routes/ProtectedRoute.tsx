@@ -1,7 +1,7 @@
 import type { Role } from '@coleradar/shared'
 import { Navigate, Outlet, useLocation } from 'react-router'
-import { LoadingIndicator } from '../components/feedback/LoadingIndicator'
-import { authClient } from '../services/authClient'
+import { LoadingIndicator } from '@/components/feedback/LoadingIndicator'
+import { authClient } from '@/services/authClient'
 import { PATHS } from './paths'
 
 interface ProtectedRouteProps {
