@@ -2,6 +2,7 @@ import { ADMIN_ROLE } from '@coleradar/shared'
 import { LogOut, ShieldCheck } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { useAuthSession } from '@/hooks/useAuthSession'
 import { PATHS } from '@/routes/paths'
@@ -25,9 +26,12 @@ export function UserMenu() {
 
   const handleSignOut = async () => {
     setIsSigningOut(true)
-    await authClient.signOut()
-    setIsSigningOut(false)
+    // Se va al inicio antes de cerrar la sesión: desde una ruta privada, la ruta protegida
+    // reaccionaría primero y mandaría al login en lugar de al inicio.
     navigate(PATHS.home, { replace: true })
+    const { error } = await authClient.signOut()
+    setIsSigningOut(false)
+    if (error) toast.error('No pudimos cerrar la sesión. Probá de nuevo.')
   }
 
   return (
